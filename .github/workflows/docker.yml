@@ -31,9 +31,8 @@ jobs:
             sudo apt install wget unzip -y
             wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/builder-rootfs.zip
             unzip builder-rootfs.zip
-            cd builder-rootfs || exit 1
             tar -xvpf kreato-linux-builder-*.tar.gz -C "/tmp/docker.tmp"
-            rm -rf builder-rootfs.zip builder-rootfs
+            rm -rf builder-rootfs.zip kreato-linux-builder-*.tar.gz
              
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
