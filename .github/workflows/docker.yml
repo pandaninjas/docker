@@ -27,8 +27,8 @@ jobs:
             mkdir /tmp/docker.tmp
             mv $GITHUB_WORKSPACE/Dockerfile /tmp/docker.tmp/ || exit 1
             cd /tmp/docker.tmp || exit 1
-            apt update
-            apt install wget unzip -y
+            sudo apt update
+            sudo apt install wget unzip -y
             wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/builder-rootfs.zip
             unzip builder-rootfs.zip
             cd builder-rootfs || exit 1
