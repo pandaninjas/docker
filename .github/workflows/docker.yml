@@ -22,17 +22,23 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
-      - name: Prepare builder image
+      - name: Prepare images
         run: |
-            mkdir /tmp/docker.tmp
-            mv $GITHUB_WORKSPACE/Dockerfile /tmp/docker.tmp/ || exit 1
+            mkdir /tmp/docker.tmp /tmp/docker.tmp.nocc
+            cp $GITHUB_WORKSPACE/Dockerfile /tmp/docker.tmp.nocc || exit 1
+            cp $GITHUB_WORKSPACE/Dockerfile /tmp/docker.tmp/ || exit 1
             cd /tmp/docker.tmp || exit 1
             sudo apt update
             sudo apt install wget unzip -y
-            wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/builder-rootfs.zip
+            wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/builder-rootfs.zip || exit 1
             unzip builder-rootfs.zip
             tar -xvpf kreato-linux-builder-*.tar.gz -C "/tmp/docker.tmp"
             rm -rf builder-rootfs.zip kreato-linux-builder-*.tar.gz
+            cd /tmp/docker.tmp.nocc || exit 1
+            wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/nocc-rootfs.zip || exit 1
+            unzip nocc-rootfs.zip
+            tar -xvpf kreato-linux-nocc-*.tar.gz -C "/tmp/docker.tmp.nocc"
+            rm -rf nocc-rootfs.zip kreato-linux-nocc-*.tar.gz
              
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -49,4 +55,10 @@ jobs:
           context: /tmp/docker.tmp
           push: true
           tags: kreato/builder:latest
-            
+      
+      - name: Build and push nocc image
+        uses: docker/build-push-action@v3
+        with:
+          context: /tmp/docker.tmp.nocc
+          push: true
+          tags: kreato/linux:latest
