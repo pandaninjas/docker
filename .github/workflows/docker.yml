@@ -30,12 +30,12 @@ jobs:
             cd /tmp/docker.tmp || exit 1
             sudo apt update
             sudo apt install wget unzip -y
-            wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/builder-rootfs.zip || exit 1
+            wget  https://nightly.link/kreatolinux/nyaa3/workflows/build-rootfs/master/builder-rootfs.zip || exit 1
             unzip builder-rootfs.zip
             tar -xvpf kreato-linux-builder-*.tar.gz -C "/tmp/docker.tmp"
             rm -rf builder-rootfs.zip kreato-linux-builder-*.tar.gz
             cd /tmp/docker.tmp.nocc || exit 1
-            wget https://nightly.link/kreatolinux/nyaastrap/workflows/main/master/nocc-rootfs.zip || exit 1
+            wget  https://nightly.link/kreatolinux/nyaa3/workflows/build-rootfs/master/nocc-rootfs.zip || exit 1
             unzip nocc-rootfs.zip
             tar -xvpf kreato-linux-nocc-*.tar.gz -C "/tmp/docker.tmp.nocc"
             rm -rf nocc-rootfs.zip kreato-linux-nocc-*.tar.gz
